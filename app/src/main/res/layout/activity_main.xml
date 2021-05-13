@@ -38,6 +38,7 @@
             android:layout_height="match_parent"
             android:layout_margin="15dp"
             android:layout_weight="1"
+            android:onClick="mainMenu2"
             android:text="영상 관리"
             android:textSize="20sp"
             app:backgroundTint="#EDA337" />
