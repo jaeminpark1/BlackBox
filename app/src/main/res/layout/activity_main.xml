@@ -20,6 +20,7 @@
             android:layout_height="match_parent"
             android:layout_margin="15dp"
             android:layout_weight="1"
+            android:onClick="mainMenu1"
             android:text="실시간 영상공유"
             android:textSize="20sp"
             app:backgroundTint="#008EFF" />
@@ -39,7 +40,7 @@
             android:layout_margin="15dp"
             android:layout_weight="1"
             android:onClick="mainMenu2"
-            android:text="영상 관리"
+            android:text="녹화된 영상 재생"
             android:textSize="20sp"
             app:backgroundTint="#EDA337" />
     </LinearLayout>
@@ -57,6 +58,7 @@
             android:layout_height="match_parent"
             android:layout_margin="15dp"
             android:layout_weight="1"
+            android:onClick="mainMenu3"
             android:text="위치 정보"
             android:textSize="20sp"
             app:backgroundTint="#76C379" />
