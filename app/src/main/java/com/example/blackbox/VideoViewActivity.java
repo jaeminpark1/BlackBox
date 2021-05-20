@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -17,6 +18,8 @@ public class VideoViewActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.videoview);
 
         Uri uri = Uri.parse(getIntent().getStringExtra("uri"));
@@ -34,5 +37,7 @@ public class VideoViewActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
 
