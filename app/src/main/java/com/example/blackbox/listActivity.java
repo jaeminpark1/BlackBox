@@ -24,8 +24,7 @@ public class listActivity extends AppCompatActivity {
 
     ListView listView;
     List<String> fileList = new ArrayList<>();
-    VideoView mVideoView = null;
-    String root_sd = Environment.getExternalStorageDirectory().toString();
+    String sdcardName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +34,11 @@ public class listActivity extends AppCompatActivity {
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, fileList));
         listRaw(fileList);
 
-        mVideoView = (VideoView) findViewById(R.id.videoView);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String st=(String)fileList.get(position);
-                Uri uri = Uri.parse(root_sd + "/Movies/"+st);
+                Uri uri = Uri.parse("storage/"+sdcardName+"/Movies/"+st);
                 Intent intent = new Intent(getApplicationContext(), VideoViewActivity.class);
                 intent.putExtra("uri",uri.toString());
                 startActivity(intent);
@@ -50,8 +47,19 @@ public class listActivity extends AppCompatActivity {
     }
 
     public void listRaw(List<String> fileList) {
-        File file = new File( root_sd + "/Movies/" ) ;
-        File list[] = file.listFiles();
+
+        File file = new File("storage/");
+        File[] listOfStorages=file.listFiles();
+
+        for(File tmp : listOfStorages) {
+            if (tmp.getName().contains("-")){
+                sdcardName = tmp.getName();
+                break;
+            }
+        }
+
+        File file2 = new File("storage/"+sdcardName+"/Movies/");
+        File list[] = file2.listFiles();
 
         for( int i=0; i< list.length; i++)
         {
@@ -59,8 +67,6 @@ public class listActivity extends AppCompatActivity {
         }
 
     }
-
-
 }
 
 
