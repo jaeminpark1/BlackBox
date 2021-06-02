@@ -18,20 +18,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         verifyStoragePermissions(this);
+        // sd카드 권한 확인을 위한 함수 호출
     }
 
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+    // sd카드 읽기 권한, 쓰기 권한을 PERMISSIONS_STORAGE라는 스트링 배열로 만듬
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    // REQUEST_EXTERNAL_STORAGE를 1이라는 상수로 고정함
 
     public static void verifyStoragePermissions(Activity activity) {
-
+        // 스토리지 권한 확인을 위한 함수
         int permission = ActivityCompat.checkSelfPermission(
                 activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
+        // sd카드 쓰기 권한이 있는지 체크해서 permission에 담음
         if (permission != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
+        //만약 권한이 승인되지 않은 상태라면 권한요청 창을 액티비티에 뛰움
     }
 
     public void mainMenu1(View view) {
