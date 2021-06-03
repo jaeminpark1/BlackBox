@@ -34,8 +34,8 @@ public class listActivity extends AppCompatActivity {
             // 리스트뷰의 아이템을 클릭했을때 실행되는 코드 재정의
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String pos=(String)fileList.get(position);
-                // 사용자가 선택한 포지션에 해당되는 파일 이름을 fileList에서 가져와서 pos에 담음
+                String pos=fileList.get(position);
+                // 사용자가 선택한 포지션에 해당되는 폴더이름을 fileList에서 가져와서 pos에 담음
                 Intent intent = new Intent(getApplicationContext(), listActivity2.class);
                 // listActivity2 intent를 생성
                 intent.putExtra("sdcardName",sdcardName);

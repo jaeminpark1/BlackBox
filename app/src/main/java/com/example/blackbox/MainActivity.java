@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void mainMenu3(View view) {
-        Toast.makeText(this,"위치정보 기능은 구현중 입니다.",Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getApplicationContext(),GpsActivity.class);
+        startActivity(intent);
     }
+
 }

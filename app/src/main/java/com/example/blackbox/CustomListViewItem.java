@@ -3,8 +3,8 @@ package com.example.blackbox;
 import android.graphics.Bitmap;
 
 public class CustomListViewItem {
-    private String filename;
     private Bitmap iconBitmap;
+    private String filename;
     // 커스텀뷰에 쓰일 멤버들 선언
 
     public void setIcon(Bitmap icon) {
