@@ -1,6 +1,7 @@
 package com.example.blackbox;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -46,12 +47,24 @@ public class GpsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= 23 &&
-                        ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(GpsActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                        ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(GpsActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                             1);
                     // ACCESS_FINE_LOCATION 권한이 있는지 확인해서 없으면 권한 요청 창을 띄움
                 } else {
                     lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                            //GPS_PROVIDER=GPS 센서로 위치정보 가져옴
+                            //실제폰에서 테스트한 결과 GPS센서는 실내에서 인식률 낮음 그래서 아래의 NETWORK_PROVIDE가 필요
+                            1000,
+                            // 위치 업데이트 간의 최소 시간 간격 (밀리 초)
+                            1,
+                            // 위치 업데이트 간의 최소 거리 (미터)
+                            gpsLocationListener);
+                            // gpsLocationListener는 LocationListener를 가져와서 상세하게 설정해서 사용
+
+                    lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                            //NETWORK_PROVIDER=와이파이로 위치정보 가져옴
+                            //실제폰에서 테스트한 결과 실내에서도 위치정보를 잘 가져옴 다만 안드로이드 에뮬에서는 이 신호를 못찾고 설정해놓은 gps값을 찾음
                             1000,
                             // 위치 업데이트 간의 최소 시간 간격 (밀리 초)
                             1,
@@ -63,12 +76,12 @@ public class GpsActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (longitude != 0 && latitude != 0) {
-                                goggleMap();
+                                googleMap();
                             }
                         }
-                    }, 800);
-                    // 0.8초 딜레이를 주기위해 사용 위도, 경도를 읽어오기 전에 맵이 실행되는걸 방지 1차적으로 방지함
-                    // if으로 위도, 경도가 확실히 0이 아닌지 한번 더 확인해서 2차적으로 위도, 경도를 가져오기전에 맵이 실행되는걸 2차적으로 방지함
+                    }, 1200);
+                    // 1.2초 딜레이를 주기위해 사용. 위도, 경도를 읽어오기 전에 맵이 실행되는걸 1차적으로 방지함
+                    // if로 위도, 경도가 확실히 0이 아닌지 한번 더 확인해서 위도, 경도를 가져오기전에 맵이 실행되는걸 2차적으로 방지함
 
                     layout.setVisibility(View.VISIBLE);
                     // 위에서 가려놓았던 [구글 지도에서 현재 위치 보기] 버튼을 표시함
@@ -80,7 +93,7 @@ public class GpsActivity extends AppCompatActivity {
             // [구글 지도에서 현재 위치 보기] 버튼을 눌렀을때 작동함 안눌러도 지도는 나오지만 다시한번 지도를 보려고 눌렀을때 작동
             @Override
             public void onClick(View v) {
-                goggleMap();
+                googleMap();
             }
         });
 
@@ -102,7 +115,7 @@ public class GpsActivity extends AppCompatActivity {
         }
     };
 
-    void goggleMap()
+    void googleMap()
     // 버튼1과 버튼2의 온클릭리스너들 2군데서 공동으로 쓰일 코드라 함수로 빼내었음
     {
         Toast.makeText(getApplicationContext(), "구글맵으로 이동합니다.", Toast.LENGTH_SHORT).show();
