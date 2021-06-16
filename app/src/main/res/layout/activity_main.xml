@@ -21,17 +21,9 @@
             android:layout_margin="15dp"
             android:layout_weight="1"
             android:onClick="mainMenu1"
-            android:text="실시간 영상공유"
+            android:text="영상 촬영"
             android:textSize="20sp"
             app:backgroundTint="#008EFF" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="#000000"
-        android:orientation="horizontal">
 
         <Button
             android:id="@+id/button2"
@@ -59,8 +51,20 @@
             android:layout_margin="15dp"
             android:layout_weight="1"
             android:onClick="mainMenu3"
+            android:text="SD 카드의 영상 재생"
+            android:textSize="20sp"
+            app:backgroundTint="#C60A4A" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:onClick="mainMenu4"
             android:text="위치 정보"
             android:textSize="20sp"
             app:backgroundTint="#76C379" />
     </LinearLayout>
+
 </LinearLayout>

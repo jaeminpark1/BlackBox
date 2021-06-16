@@ -56,15 +56,15 @@ public class listActivity2 extends AppCompatActivity {
     }
 
     public void listRaw(CustomListViewAdapter adapter) {
-        File file3 = new File("storage/"+sdcardName2+"/"+pos2);
-        // storage/sd카드폴더명/이전 액티비에서 선택한 폴더명 경로를 file3에 담음
-        File list[] = file3.listFiles();
-        // file3의 경로(storage/sd카드폴더/이전 액티비에서 선택한 폴더명) 밑에 있는 모든 폴더를 list File 배열에 담음
+        File file = new File("storage/"+sdcardName2+"/"+pos2);
+        // storage/sd카드폴더명/이전 액티비에서 선택한 폴더명 경로를 file에 담음
+        File list[] = file.listFiles();
+        // file의 경로(storage/sd카드폴더/이전 액티비에서 선택한 폴더명) 밑에 있는 모든 폴더를 list File 배열에 담음
 
         for( int i=0; i< list.length; i++)
         {
             Bitmap bitmap  = ThumbnailUtils.createVideoThumbnail(list[i].getPath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-            // list에 있는 파이을 하나씩 썸네일을 풀스크린으로 추출
+            // list에 있는 파일을 하나씩 풀스크린으로 썸네일 추출
             Bitmap thumbnail = ThumbnailUtils.extractThumbnail(bitmap, 240, 240);
             // 추출한 썸네일을 240x240 사이즈로 리사이즈
             adapter.addItem(thumbnail,list[i].getName());

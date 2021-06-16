@@ -46,31 +46,31 @@ public class GpsActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= 23 &&
-                        ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= 23 &&ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                {
                     ActivityCompat.requestPermissions(GpsActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                             1);
                     // ACCESS_FINE_LOCATION 권한이 있는지 확인해서 없으면 권한 요청 창을 띄움
                 } else {
                     lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                             //GPS_PROVIDER=GPS 센서로 위치정보 가져옴
-                            //실제폰에서 테스트한 결과 GPS센서는 실내에서 인식률 낮음 그래서 아래의 NETWORK_PROVIDE가 필요
+                            //실제폰에서 테스트한 결과 GPS센서는 실내에서 인식률 낮음 그래서 아래의 NETWORK_PROVIDER가 필요
                             1000,
                             // 위치 업데이트 간의 최소 시간 간격 (밀리 초)
                             1,
                             // 위치 업데이트 간의 최소 거리 (미터)
                             gpsLocationListener);
-                            // gpsLocationListener는 LocationListener를 가져와서 상세하게 설정해서 사용
+                    // gpsLocationListener는 LocationListener를 가져와서 설정해서 사용
 
-                    lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                            //NETWORK_PROVIDER=와이파이로 위치정보 가져옴
-                            //실제폰에서 테스트한 결과 실내에서도 위치정보를 잘 가져옴 다만 안드로이드 에뮬에서는 이 신호를 못찾고 설정해놓은 gps값을 찾음
-                            1000,
-                            // 위치 업데이트 간의 최소 시간 간격 (밀리 초)
-                            1,
-                            // 위치 업데이트 간의 최소 거리 (미터)
-                            gpsLocationListener);
-                            // gpsLocationListener는 LocationListener를 가져와서 상세하게 설정해서 사용
+//                    lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+//                            //NETWORK_PROVIDER=휴대폰 기지국, 와이파이로 위치정보 가져옴
+//                            //실제폰에서 테스트한 결과 실내에서도 위치정보를 잘 가져옴 다만 안드로이드 에뮬에서는 이 신호를 못찾고 설정해놓은 gps값을 찾음
+//                            1000,
+//                            // 위치 업데이트 간의 최소 시간 간격 (밀리 초)
+//                            1,
+//                            // 위치 업데이트 간의 최소 거리 (미터)
+//                            gpsLocationListener);
+//                    // gpsLocationListener는 LocationListener를 가져와서 설정해서 사용
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -79,8 +79,8 @@ public class GpsActivity extends AppCompatActivity {
                                 googleMap();
                             }
                         }
-                    }, 1200);
-                    // 1.2초 딜레이를 주기위해 사용. 위도, 경도를 읽어오기 전에 맵이 실행되는걸 1차적으로 방지함
+                    }, 600);
+                    // 0.6초 딜레이를 주기위해 사용. 위도, 경도를 읽어오기 전에 맵이 실행되는걸 1차적으로 방지함
                     // if로 위도, 경도가 확실히 0이 아닌지 한번 더 확인해서 위도, 경도를 가져오기전에 맵이 실행되는걸 2차적으로 방지함
 
                     layout.setVisibility(View.VISIBLE);
@@ -102,7 +102,7 @@ public class GpsActivity extends AppCompatActivity {
     final LocationListener gpsLocationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
             String provider = location.getProvider();
-            // provider=현재 위치를 gps로 가져오는지 network(wi-fi)로 가져오는지 확인
+            // provider=현재 위치를 gps로 가져오는지 network(기지국, wi-fi)로 가져오는지 확인
             longitude = location.getLongitude();
             // longitude=위도
             latitude = location.getLatitude();
@@ -124,6 +124,4 @@ public class GpsActivity extends AppCompatActivity {
         // 경도와 위도를 가져와서 URI 주소로 만든후 ACTION_VIEW를 통해 구글 지도를 띄움
     }
 }
-
-
 

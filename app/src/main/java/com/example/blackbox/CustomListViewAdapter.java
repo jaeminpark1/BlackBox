@@ -66,6 +66,10 @@ public class CustomListViewAdapter extends BaseAdapter {
     }
     // 사용자가 선택한 위치에 있는 파일명을 가져와서 리턴 시켜줌
 
+    public void remove(int position) {
+        listViewItemList.remove(listViewItemList.get(position));
+    }
+    //listViewItemList 에서 position 에 해당되는 자리의 값을 지우기
 
     public void addItem(Bitmap icon, String filename) {
         // 아이템 데이터 추가를 위한 함수.
