@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
         if (permission != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO},1
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.INTERNET},1
             );
         }
-        //만약 권한이 승인되지 않은 상태라면 권한요청 창을 액티비티에 뛰움
+        // 만약 권한이 승인되지 않은 상태라면 권한요청 창을 액티비티에 뛰움
     }
 
     public void mainMenu1(View view) {
@@ -52,6 +51,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void mainMenu4(View view) {
         Intent intent = new Intent(getApplicationContext(),GpsActivity.class);
+        startActivity(intent);
+    }
+
+    public void mainMenu5(View view) {
+        Intent intent = new Intent(getApplicationContext(), FtpUploadActivity.class);
+        startActivity(intent);
+    }
+
+    public void mainMenu6(View view) {
+        Intent intent = new Intent(getApplicationContext(), FtpStreamingActivity.class);
         startActivity(intent);
     }
 }

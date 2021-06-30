@@ -65,6 +65,36 @@
             android:text="위치 정보"
             android:textSize="20sp"
             app:backgroundTint="#76C379" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#000000"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:onClick="mainMenu5"
+            android:text="녹화한 파일을 FTP 서버로 업로드"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:onClick="mainMenu6"
+            android:text="FTP 서버에 있는 파일을 스트리밍으로 재생"
+            android:textSize="20sp"
+            app:backgroundTint="#673AB7" />
     </LinearLayout>
 
 </LinearLayout>

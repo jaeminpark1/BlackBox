@@ -8,8 +8,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -20,23 +21,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BlackBox"
         tools:ignore="ExtraText">
-       <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CameraActivity"/>
-        <activity android:name=".RecordFilesListActivity"/>
-        <activity android:name=".listActivity"/>
-        <activity android:name=".listActivity2"/>
-        <activity android:name=".GpsActivity"/>
+        <activity android:name=".CameraActivity" />
+        <activity android:name=".RecordFilesListActivity" />
+        <activity android:name=".listActivity" />
+        <activity android:name=".listActivity2" />
+        <activity android:name=".GpsActivity" />
+        <activity android:name=".FtpStreamingActivity" />
+        <activity android:name=".FtpListActivity" />
+        <activity android:name=".FtpUploadActivity" />
+        <activity android:name=".FtpUploadListActivity" />
         <activity
             android:name=".VideoViewActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        //VideoViewActivity를 강제로 가로보기 모드로 실행하고 액션바 제거
     </application>
 
 </manifest>

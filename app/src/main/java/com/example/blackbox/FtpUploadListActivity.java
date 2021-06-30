@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -17,20 +18,33 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
+import java.net.URL;
+import java.util.concurrent.CountDownLatch;
 
-public class RecordFilesListActivity extends AppCompatActivity {
+public class FtpUploadListActivity extends AppCompatActivity {
 
     ListView listView;
+    private ConnectFTP ConnectFTP;
+    String status="";
+    String ip;
+    int port;
+    String username;
+    String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recordfileslist);
+        setContentView(R.layout.activity_ftpuploadlist);
+        ConnectFTP = new ConnectFTP();
         CustomListViewAdapter adapter = new CustomListViewAdapter() ;
-        listView = findViewById(R.id.ListView3);
+        listView = findViewById(R.id.ListView5);
         // id를 찾는 이유는 listView.xxx 이라는 명령어들을 쓰기 위함
         listView.setAdapter(adapter);
         // listView의 Adapter를 커스텀뷰의 adapter로 설정함
+        ip = getIntent().getStringExtra("ip");
+        port = getIntent().getIntExtra("port",21);
+        username = getIntent().getStringExtra("username");
+        password = getIntent().getStringExtra("password");
 
         listRaw(adapter);
         // 리스트뷰에 들어갈 내용을 쓰기 위해 listRaw 함수 호출
@@ -60,25 +74,31 @@ public class RecordFilesListActivity extends AppCompatActivity {
                 //AlertDialog의 아이콘을 ic_launcher로 지정
                 ad.setTitle("확인");
                 //AlertDialog의 타이틀을 확인으로 설정
-                ad.setMessage(adapter.getName(position)+"파일을 삭제하시겠습니까?");
+                ad.setMessage(adapter.getName(position)+" 파일을 업로드 하시겠습니까?");
                 //AlertDialog의 메시지를 adapter에서 현재 선택된 포지션의 파일명으로 가져와 그 뒤에 그 파일을 삭제할지 물음
 
                 ad.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     //포지티브 버튼을 확인으로 설정하고 사용자가 그 버튼을 눌렀을때의 작업 재정의
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(),adapter.getName(position)+"가 삭제되었습니다.",Toast.LENGTH_LONG).show();
-                        //adapter에서 현재 선택된 포지션의 파일명으로 가져와 그 파일이 삭제되었다는 메시지를 뛰움
-                        File f = new File("sdcard/Movies/"+adapter.getName(position));
-                        //sdcard/Movies/현재 롱클릭으로 선택된 파일명 을 File f에 담음
-                        adapter.remove(position);
-                        //어댑터를 통해 현재 선택된 파일을 listViewItemList에서 삭제함
-                        f.delete();
-                        //sdcard/Movies/현재 롱클릭으로 선택된 파일명에 해당되는 파일을 실제로 삭제함
-                        adapter.notifyDataSetChanged();
-                        //어댑터에서 변경사항이 있는지 체크함 (리스트뷰의 리스트 갱신)
-                        dialog.dismiss();
-                        //AlertDialog 해산
+
+                        CountDownLatch latch = new CountDownLatch(1);
+
+                        new Thread(new Runnable() {
+                            public void run() {
+                        ConnectFTP.ftpConnect(ip,username,password,port);
+                        status=ConnectFTP.ftpUploadFile("sdcard/Movies/"+adapter.getName(position)+"/",adapter.getName(position),"");
+                                latch.countDown();
+                            }
+                        }).start();
+
+                        try {
+                            latch.await();
+                            Toast.makeText(getApplicationContext(),adapter.getName(position)+" 영상 업로드 완료",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
 
@@ -118,9 +138,10 @@ public class RecordFilesListActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                 }
-            }, 1000);
-            //1초 딜레이를 주기위해 사용 코드가 너무 빠르게 실행되면 썸네일을 못읽어오는 경우가 있어서 그걸 방지함
+            }, 300);
+            //0.3초 딜레이를 주기위해 사용 코드가 너무 빠르게 실행되면 썸네일을 못읽어오는 경우가 있어서 그걸 방지함
         }
 
     }
+
 }

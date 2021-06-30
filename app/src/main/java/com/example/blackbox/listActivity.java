@@ -22,7 +22,7 @@ public class listActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.filelist);
+        setContentView(R.layout.activity_list);
         listView = findViewById(R.id.ListView);
         // id를 찾는 이유는 listView.xxx 이라는 명령어들을 쓰기 위함
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, fileList));

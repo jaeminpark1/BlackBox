@@ -32,7 +32,7 @@ public class GpsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.gps);
+        setContentView(R.layout.activity_gps);
         Button button1 = findViewById(R.id.button1);
         txtResult = findViewById(R.id.txtResult);
         Button button2 = findViewById(R.id.button2);
@@ -62,26 +62,27 @@ public class GpsActivity extends AppCompatActivity {
                             gpsLocationListener);
                     // gpsLocationListener는 LocationListener를 가져와서 설정해서 사용
 
-//                    lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-//                            //NETWORK_PROVIDER=휴대폰 기지국, 와이파이로 위치정보 가져옴
-//                            //실제폰에서 테스트한 결과 실내에서도 위치정보를 잘 가져옴 다만 안드로이드 에뮬에서는 이 신호를 못찾고 설정해놓은 gps값을 찾음
-//                            1000,
-//                            // 위치 업데이트 간의 최소 시간 간격 (밀리 초)
-//                            1,
-//                            // 위치 업데이트 간의 최소 거리 (미터)
-//                            gpsLocationListener);
-//                    // gpsLocationListener는 LocationListener를 가져와서 설정해서 사용
-
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (longitude != 0 && latitude != 0) {
-                                googleMap();
-                            }
                         }
-                    }, 600);
-                    // 0.6초 딜레이를 주기위해 사용. 위도, 경도를 읽어오기 전에 맵이 실행되는걸 1차적으로 방지함
-                    // if로 위도, 경도가 확실히 0이 아닌지 한번 더 확인해서 위도, 경도를 가져오기전에 맵이 실행되는걸 2차적으로 방지함
+                    }, 1000);
+                    // 1초 딜레이를 주기위해 사용.
+
+                    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                    if ( location == null ) {
+                        Toast.makeText(getApplicationContext(),"GPS 신호가 약하기 때문에 기지국,WI-FI에서 위치정보를 가져옵니다.",Toast.LENGTH_SHORT).show();
+                        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                                //NETWORK_PROVIDER=휴대폰 기지국, 와이파이로 위치정보 가져옴
+                                //실제폰에서 테스트한 결과 실내에서도 위치정보를 잘 가져옴 다만 안드로이드 에뮬에서는 이 신호를 못찾고 설정해놓은 gps값을 찾음
+                                1000,
+                                // 위치 업데이트 간의 최소 시간 간격 (밀리 초)
+                                1,
+                                // 위치 업데이트 간의 최소 거리 (미터)
+                                gpsLocationListener);
+                        // gpsLocationListener는 LocationListener를 가져와서 설정해서 사용
+                    }
 
                     layout.setVisibility(View.VISIBLE);
                     // 위에서 가려놓았던 [구글 지도에서 현재 위치 보기] 버튼을 표시함

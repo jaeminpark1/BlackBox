@@ -6,15 +6,13 @@ import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class listActivity2 extends AppCompatActivity {
@@ -26,7 +24,7 @@ public class listActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.filelist2);
+        setContentView(R.layout.activity_list2);
         CustomListViewAdapter adapter = new CustomListViewAdapter() ;
         listView = findViewById(R.id.ListView2);
         // id를 찾는 이유는 listView.xxx 이라는 명령어들을 쓰기 위함
@@ -69,6 +67,12 @@ public class listActivity2 extends AppCompatActivity {
             // 추출한 썸네일을 240x240 사이즈로 리사이즈
             adapter.addItem(thumbnail,list[i].getName());
             // 썸네일과 파일명을 adapter를 통해 리스트에 추가시킴
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                }
+            }, 1000);
+            //1초 딜레이를 주기위해 사용 코드가 너무 빠르게 실행되면 썸네일을 못읽어오는 경우가 있어서 그걸 방지함
         }
 
     }
